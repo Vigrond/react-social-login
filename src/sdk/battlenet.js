@@ -17,7 +17,7 @@ let battlenetAccessToken
 const load = ({ appId, redirect, scope }) => new Promise((resolve, reject) => {
   const _redirect = parseAsURL(redirect)
   const searchParams = 'rslCallback=battlenet'
-  let battlenetScopes = [ 'basic' ]
+  let battlenetScopes = [ ]
 
   if (Array.isArray(scope)) {
     battlenetScopes = battlenetScopes.concat(scope)
@@ -35,7 +35,7 @@ const load = ({ appId, redirect, scope }) => new Promise((resolve, reject) => {
 
   _redirect.search = _redirect.search ? _redirect.search + '&' + searchParams : '?' + searchParams
 
-  battlenetAuth = `https://us.battle.net/oauth/authorize/?client_id=${appId}&scope=${battlenetScopes}&redirect_uri=${encodeURIComponent(_redirect.toString())}&response_type=code`
+  battlenetAuth = `https://us.battle.net/oauth/authorize?client_id=${appId}&scope=${battlenetScopes}&redirect_uri=${encodeURIComponent(_redirect.toString())}&response_type=code`
 
   if (getQueryStringValue('rslCallback') === 'battlenet') {
     if (getQueryStringValue('error')) {

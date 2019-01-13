@@ -17,7 +17,8 @@ export default class SocialLogin extends Component {
     provider: PropTypes.oneOf([
       'facebook',
       'google',
-      'linkedin'
+      'linkedin',
+      'battlenet'
     ]).isRequired,
     version: PropTypes.string
   }
@@ -39,7 +40,7 @@ export default class SocialLogin extends Component {
   handleSocialLoginInvokeSuccess (res) {
     const { callback, provider } = this.props
 
-    // console.log(res)  // Uncomment to check response coming from provider in log
+    console.log(res) // Uncomment to check response coming from provider in log
 
     const user = new SocialUser()
     let userProfile
@@ -100,6 +101,17 @@ export default class SocialLogin extends Component {
 
         expiresIn.setSeconds(expiresIn.getSeconds() + window.IN.ENV.auth.oauth_expires_in)
         user.token.expiresAt = expiresIn
+
+        break
+      case 'battlenet':
+        userProfile = {
+          id: res.id,
+          name: res.battletag
+        }
+        token = {
+          accessToken: res.authResponse.accessToken,
+          expiresAt: res.authResponse.expiresIn
+        }
 
         break
       default:
